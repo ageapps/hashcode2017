@@ -6,6 +6,8 @@ public class Ride{
 
     public int  eStart, lFinish;
 
+    public int id;
+
     private Position startPosition, endPosition;
 
     public int geteStart() {
@@ -40,14 +42,15 @@ public class Ride{
         this.endPosition = endPosition;
     }
 
-    public Ride(Position startPosition, Position endPosition, int eStart, int lFinish) {
+    public int getId() { return id; }
+
+    public void setId(int id) { this.id = id; }
+
+    public Ride(int id, Position startPosition, Position endPosition, int eStart, int lFinish) {
+        this.id=id;
         this.startPosition = startPosition;
         this.endPosition = endPosition;
         this.eStart = eStart;
         this.lFinish = lFinish;
-    }
-
-    public int getDistance(){
-        return Math.abs(endPosition.getX()-startPosition.getX())+Math.abs(endPosition.getY()-startPosition.getY());
     }
 }

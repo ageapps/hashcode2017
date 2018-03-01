@@ -26,11 +26,14 @@ public class Main {
 
              int lastAsignedRide = 0;
             // asignar rides a coches
+
+
             for (int i = 0; i < availableRides.size(); i++) {
 
-                Vehicle closestVehicle = getClosestVehicle(i);
+                int vehicleIndex = calculateClosestTo(availableRides.get(i).getStartPosition());
 
-                closestVehicle.setCurrentRide(availableRides.get(i));
+                vehiclesArray[vehicleIndex].setCurrentRide(availableRides.get(i));
+
                 lastAsignedRide = i+1;
             }
 
@@ -52,13 +55,32 @@ public class Main {
 
 
         }
-
-
-
-
-        System.out.println("Done, bitches");
-
     }
+
+    public static int getDistance(Position startPosition, Position endPosition){
+        return Math.abs(endPosition.getX()-startPosition.getX())+Math.abs(endPosition.getY()-startPosition.getY());
+    }
+
+    public static int calculateClosestTo(Position destination){
+        int closestDistance=streets.length*streets[0].length+1;
+        int closestVehicleId=0;
+        for (int i=0; i<=vehiclesArray.length; i++){
+            if(vehiclesArray[i].isBusy()==false){
+                int currDistance = getDistance(vehiclesArray[i].getCurrentPosition(), destination);
+                if(currDistance<closestDistance){
+                    closestDistance=currDistance;
+                    closestVehicleId=i;
+                }
+            }
+        }
+        if(closestDistance==streets.length*streets[0].length+1){
+            return -1;
+        }
+        else{
+            return closestVehicleId;
+        }
+    }
+
 
     private static void populateAll(String fileName) {
         File file = new File(fileName);
@@ -106,7 +128,7 @@ public class Main {
 
             int eStart = scanner.nextInt();
             int lFinish = scanner.nextInt();
-            availableRides.add(new Ride(start,end,eStart,lFinish));
+            availableRides.add(new Ride(i,start,end,eStart,lFinish));
         }
     }
 

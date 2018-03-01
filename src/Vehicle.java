@@ -51,12 +51,23 @@ public class Vehicle {
 
     public void setCurrentRide(Ride currentRide) {
         this.currentRide = currentRide;
+        busySteps = getDistance(currentPosition, currentRide.getStartPosition()) + getDistance(currentRide.getStartPosition(), currentRide.getEndPosition());
+
     }
 
     public boolean isBusy(){
-        return (busySteps > 0);
+        return (busySteps >= 0);
     }
     public void move(){
         busySteps--;
+
+        if (busySteps == 0){
+            doneRides.add(currentRide);
+            currentRide = null;
+        }
+
+    }
+    public int getDistance(Position startPosition, Position endPosition){
+        return Math.abs(endPosition.getX()-startPosition.getX())+Math.abs(endPosition.getY()-startPosition.getY());
     }
 }
