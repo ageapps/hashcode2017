@@ -15,7 +15,7 @@ public class Main {
 
 
     public static void main(String[] args) {
-        String fileName = "lines.txt";
+        String fileName = "b_should_be_easy.in";
 
         availableRides = new ArrayList<Ride>();
 
@@ -29,8 +29,13 @@ public class Main {
 
 
             for (int i = 0; i < availableRides.size(); i++) {
-
-                int vehicleIndex = calculateClosestTo(availableRides.get(i).getStartPosition());
+                int x = calculateClosestTo(availableRides.get(i).getStartPosition());
+                int vehicleIndex;
+                if(x==-1){
+                    continue;
+                }else{
+                     vehicleIndex= x;
+                }
 
                 vehiclesArray[vehicleIndex].setCurrentRide(availableRides.get(i));
 
@@ -53,8 +58,8 @@ public class Main {
                 }
             }
 
-
         }
+        generateOutput();
     }
 
     public static int getDistance(Position startPosition, Position endPosition){
@@ -64,7 +69,7 @@ public class Main {
     public static int calculateClosestTo(Position destination){
         int closestDistance=streets.length*streets[0].length+1;
         int closestVehicleId=0;
-        for (int i=0; i<=vehiclesArray.length; i++){
+        for (int i=0; i<vehiclesArray.length; i++){
             if(vehiclesArray[i].isBusy()==false){
                 int currDistance = getDistance(vehiclesArray[i].getCurrentPosition(), destination);
                 if(currDistance<closestDistance){
@@ -108,7 +113,7 @@ public class Main {
         bonus = scanner.nextInt();
         steps = scanner.nextBigInteger();
 
-        for(int j=0; j<= vehiclesArray.length; j++) {
+        for(int j=0; j< vehiclesArray.length; j++) {
             vehiclesArray[j]=new Vehicle(new Position(0,0));
         }
 
@@ -133,15 +138,18 @@ public class Main {
     }
 
 
-    public void generateOutput(){
+    public static void generateOutput(){
         try {
-            PrintWriter writer = new PrintWriter("the-file-name.txt", "UTF-8");
-            for (int i=0; i<=vehiclesArray.length;i++){
+            PrintWriter writer = new PrintWriter("output.txt", "UTF-8");
+            for (int i=0; i<vehiclesArray.length;i++){
                 writer.print(i+1);
+                System.out.print(i+1);
                 for(int j=0; j<vehiclesArray[i].getDoneRides().size();j++){
-                    writer.print(vehiclesArray[i].getDoneRides().get(j)+" ");
+                    writer.print(vehiclesArray[i].getDoneRides().get(j).getId()+" ");
+                    System.out.print(vehiclesArray[i].getDoneRides().get(j).getId()+" ");
                 }
                 writer.print("\n");
+                System.out.print("\n");
 
             }
         } catch (FileNotFoundException e) {
