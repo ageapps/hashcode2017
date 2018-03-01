@@ -24,34 +24,30 @@ public class Main {
              bi.compareTo(steps) < 0;
              bi = bi.add(BigInteger.ONE)) {
 
+             int lastAsignedRide = 0;
             // asignar rides a coches
             for (int i = 0; i < availableRides.size(); i++) {
 
-                int[] distances = new int[vehiclesArray.length];
-                int minDistance = 10001;
-                int carIndex = vehiclesArray.length;
+                Vehicle closestVehicle = getClosestVehicle(i);
 
-                for (int j = 0; j < vehiclesArray.length; j++) {
-                    // calcular minima distancia
-
-                }
-                for (int j = 0; j < vehiclesArray.length; j++) {
-                    // calcular minima distancia
-                    if (distances[i] < minDistance){
-                        minDistance = distances[i];
-                        carIndex = i;
-                    }
-                }
-                Vehicle closestVehicle = vehiclesArray[carIndex];
                 closestVehicle.setCurrentRide(availableRides.get(i));
-                availableRides.remove(i);
-
+                lastAsignedRide = i+1;
             }
+
+            // clean assigned rides
+            int oldRides = availableRides.size();
+            int ind = 0;
+            while (availableRides.size() >  (oldRides-(lastAsignedRide))){
+                availableRides.remove(0);
+                ind++;
+            }
+
 
             // mover coches
             for (int j = 0; j < vehiclesArray.length; j++) {
-                // calcular minima distancia
-
+                if (vehiclesArray[j].isBusy()){
+                    vehiclesArray[j].move();
+                }
             }
 
 
@@ -112,5 +108,28 @@ public class Main {
             int lFinish = scanner.nextInt();
             availableRides.add(new Ride(start,end,eStart,lFinish));
         }
+    }
+
+
+    public static Vehicle getClosestVehicle(int i){
+        int[] distances = new int[vehiclesArray.length];
+        int minDistance = 10001;
+        int carIndex = vehiclesArray.length;
+
+        for (int j = 0; j < vehiclesArray.length; j++) {
+            // calcular minima distancia
+
+
+        }
+        for (int j = 0; j < vehiclesArray.length; j++) {
+            // calcular minima distancia
+            if (distances[i] < minDistance){
+                minDistance = distances[i];
+                carIndex = i;
+            }
+        }
+        Vehicle closestVehicle = vehiclesArray[carIndex];
+
+        return closestVehicle;
     }
 }
