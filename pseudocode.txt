@@ -1,0 +1,11 @@
+for (steps){ 
+  * for(availableRides){ 
+    * for (coches){ 
+      * if(!busy){
+        * //distancia/tiempo si no esta ocupado = a la distancia a la que se encuentra menos lo que tarda en llegar, es la distancia a la que estara en t=RideStart
+        * distToTarget=distActual- distRideToStart 
+        * else{
+          * distToTarget= posFinal-rid* busySteps
+        }
+        } } } }
+
