@@ -133,25 +133,21 @@ public class Main {
     }
 
 
-    public static Vehicle getClosestVehicle(int i){
-        int[] distances = new int[vehiclesArray.length];
-        int minDistance = 10001;
-        int carIndex = vehiclesArray.length;
+    public void generateOutput(){
+        try {
+            PrintWriter writer = new PrintWriter("the-file-name.txt", "UTF-8");
+            for (int i=0; i<=vehiclesArray.length;i++){
+                writer.print(i+1);
+                for(int j=0; j<vehiclesArray[i].getDoneRides().size();j++){
+                    writer.print(vehiclesArray[i].getDoneRides().get(j)+" ");
+                }
+                writer.print("\n");
 
-        for (int j = 0; j < vehiclesArray.length; j++) {
-            // calcular minima distancia
-
-
-        }
-        for (int j = 0; j < vehiclesArray.length; j++) {
-            // calcular minima distancia
-            if (distances[i] < minDistance){
-                minDistance = distances[i];
-                carIndex = i;
             }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
         }
-        Vehicle closestVehicle = vehiclesArray[carIndex];
-
-        return closestVehicle;
     }
 }
