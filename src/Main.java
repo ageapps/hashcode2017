@@ -129,7 +129,7 @@ public class Main {
 
             int eStart = scanner.nextInt();
             int lFinish = scanner.nextInt();
-            availableRides.add(new Ride(start,end,eStart,lFinish));
+            availableRides.add(new Ride(i,start,end,eStart,lFinish));
         }
     }
 }
