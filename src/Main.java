@@ -132,4 +132,23 @@ public class Main {
             availableRides.add(new Ride(i,start,end,eStart,lFinish));
         }
     }
+
+    public void generateOutput(){
+        try {
+            PrintWriter writer = new PrintWriter("the-file-name.txt", "UTF-8");
+            for (int i=0; i<=vehiclesArray.length;i++){
+                writer.print(i+1);
+                for(int j=0; j<vehiclesArray[i].getDoneRides().size();j++){
+                    writer.print(vehiclesArray[i].getDoneRides().get(j)+" ");
+                }
+                writer.print("\n");
+
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+    }
 }
