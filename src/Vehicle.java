@@ -10,11 +10,15 @@ public class Vehicle {
     private Ride currentRide;
 
 
-    public Vehicle(int busySteps, Position position, ArrayList<Ride> doneRides, Ride currentRide) {
+    public Vehicle( Position position) {
         this.busySteps = busySteps;
         this.currentPosition = position;
         this.doneRides = doneRides;
         this.currentRide = currentRide;
+
+        busySteps = 0;
+        doneRides = new ArrayList<Ride>();
+        currentRide = null;
     }
 
     public int getBusySteps() {
