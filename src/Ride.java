@@ -46,8 +46,4 @@ public class Ride{
         this.eStart = eStart;
         this.lFinish = lFinish;
     }
-
-    public int getDistance(){
-        return Math.abs(endPosition.getX()-startPosition.getX())+Math.abs(endPosition.getY()-startPosition.getY());
-    }
 }

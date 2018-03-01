@@ -37,7 +37,7 @@ public class Main {
                 }
                 for (int j = 0; j < vehiclesArray.length; j++) {
                     // calcular minima distancia
-                    if (distances[i] < minDistance){
+                    if (distances[i] < minDistance) {
                         minDistance = distances[i];
                         carIndex = i;
                     }
@@ -56,13 +56,32 @@ public class Main {
 
 
         }
-
-
-
-
-        System.out.println("Done, bitches");
-
     }
+
+    public int getDistance(Position startPosition, Position endPosition){
+        return Math.abs(endPosition.getX()-startPosition.getX())+Math.abs(endPosition.getY()-startPosition.getY());
+    }
+
+    public int calculateClosestTo(Position destination){
+        int closestDistance=streets.length*streets[0].length+1;
+        int closestVehicleId=0;
+        for (int i=0; i<=vehiclesArray.length; i++){
+            if(vehiclesArray[i].isBusy()==false){
+                int currDistance = getDistance(vehiclesArray[i].getCurrentPosition(), destination);
+                if(currDistance<closestDistance){
+                    closestDistance=currDistance;
+                    closestVehicleId=i;
+                }
+            }
+        }
+        if(closestDistance==streets.length*streets[0].length+1){
+            return -1;
+        }
+        else{
+            return closestVehicleId;
+        }
+    }
+
 
     private static void populateAll(String fileName) {
         File file = new File(fileName);
