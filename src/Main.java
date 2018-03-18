@@ -15,7 +15,7 @@ public class Main {
 
 
     public static void main(String[] args) {
-        String fileName = "b_should_be_easy.in";
+        String fileName = "a_example.in";
 
         availableRides = new ArrayList<Ride>();
 
@@ -26,16 +26,22 @@ public class Main {
 
              int lastAsignedRide = 0;
             // asignar rides a coches
+            System.out.println("");
+            System.out.println("--------------------   STEP "+ bi + "  ------------------- " );
+            System.out.println("");
 
 
             for (int i = 0; i < availableRides.size(); i++) {
-                int x = calculateClosestTo(availableRides.get(i).getStartPosition());
-                int vehicleIndex;
-                if(x==-1){
+                int vehicleIndex = calculateClosestTo(availableRides.get(i).getStartPosition());
+
+                if(vehicleIndex < 0) {
                     continue;
-                }else{
-                     vehicleIndex= x;
                 }
+
+                if (vehiclesArray[vehicleIndex].isBusy()){
+                    continue;
+                }
+                System.out.println("Ride "+ availableRides.get(i).getId() + " => Vehicle " + vehicleIndex );
 
                 vehiclesArray[vehicleIndex].setCurrentRide(availableRides.get(i));
 
@@ -58,6 +64,7 @@ public class Main {
                 }
             }
 
+
         }
         generateOutput();
     }
@@ -70,14 +77,22 @@ public class Main {
         int closestDistance=streets.length*streets[0].length+1;
         int closestVehicleId=0;
         for (int i=0; i<vehiclesArray.length; i++){
-            if(vehiclesArray[i].isBusy()==false){
-                int currDistance = getDistance(vehiclesArray[i].getCurrentPosition(), destination);
-                if(currDistance<closestDistance){
-                    closestDistance=currDistance;
-                    closestVehicleId=i;
-                }
+            int currDistance;
+
+            if(!vehiclesArray[i].isBusy()){
+                currDistance = getDistance(vehiclesArray[i].getCurrentPosition(), destination);
+            } else {
+                currDistance = vehiclesArray[i].getBusySteps() + getDistance(vehiclesArray[i].getCurrentRide().getEndPosition(), destination);
+
+            }
+            System.out.println("Distance Vehicle " + i + ": " + currDistance);
+
+            if(currDistance<closestDistance){
+                closestDistance=currDistance;
+                closestVehicleId=i;
             }
         }
+
         if(closestDistance==streets.length*streets[0].length+1){
             return -1;
         }
@@ -105,13 +120,22 @@ public class Main {
 
         int rows = scanner.nextInt();
         int columns = scanner.nextInt();
+        System.out.println("rows " + rows);
+        System.out.println("columns " + columns);
 
         streets = new int[rows][columns];
 
-        vehiclesArray = new Vehicle[scanner.nextInt()];
+        int vehicleNum = scanner.nextInt();
+        System.out.println("vehicleNum " + vehicleNum);
+
+        vehiclesArray = new Vehicle[vehicleNum];
         int  numRides = scanner.nextInt();;
+        System.out.println("numRides " + numRides);
+
         bonus = scanner.nextInt();
         steps = scanner.nextBigInteger();
+        System.out.println("bonus " + bonus);
+        System.out.println("steps " + steps);
 
         for(int j=0; j< vehiclesArray.length; j++) {
             vehiclesArray[j]=new Vehicle(new Position(0,0));
@@ -135,6 +159,8 @@ public class Main {
             int lFinish = scanner.nextInt();
             availableRides.add(new Ride(i,start,end,eStart,lFinish));
         }
+        System.out.println(" -------------------------------    ");
+
     }
 
 
@@ -142,8 +168,12 @@ public class Main {
         try {
             PrintWriter writer = new PrintWriter("output.txt", "UTF-8");
             for (int i=0; i<vehiclesArray.length;i++){
-                writer.print(i+1);
-                System.out.print(i+1);
+                writer.print(vehiclesArray[i].getDoneRides().size());
+                writer.print(" ");
+
+                System.out.print(vehiclesArray[i].getDoneRides().size());
+                System.out.print(" ");
+
                 for(int j=0; j<vehiclesArray[i].getDoneRides().size();j++){
                     writer.print(vehiclesArray[i].getDoneRides().get(j).getId()+" ");
                     System.out.print(vehiclesArray[i].getDoneRides().get(j).getId()+" ");

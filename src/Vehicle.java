@@ -56,7 +56,7 @@ public class Vehicle {
     }
 
     public boolean isBusy(){
-        return (busySteps >= 0);
+        return (busySteps > 0);
     }
     public void move(){
         busySteps--;
